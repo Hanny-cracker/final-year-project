@@ -1,0 +1,302 @@
+<ion-toolbar>
+  <ion-buttons slot="start">
+    <ion-menu-button></ion-menu-button>
+  </ion-buttons>
+  <!-- this the elements in the toolbar  -->
+  <div class="tool">
+    <ion-segment (ionChange)="displaySegment($event)" [value]="segment">
+      <ion-segment-button value="Book">
+        <ion-label>Book Appointment</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="Appointments">
+        <ion-label>Appointments</ion-label>
+      </ion-segment-button>
+      <ion-segment-button click="click()" value="History">
+        <ion-label>History</ion-label>
+      </ion-segment-button>
+
+    </ion-segment>
+  </div>
+
+</ion-toolbar>
+
+<ion-content [fullscreen]="true">
+
+  <!-- this is the patients section when the !user  is false-->
+  <div *ngIf="!user">
+    <!-- this is to refresh the page after an update -->
+    <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+      <ion-refresher-content pullingIcon="chevron_down-circle-outline" pullingText="Pull to refresh"
+        refreshingSpinner="circles" refreshingText="Refreshing...">
+      </ion-refresher-content>
+    </ion-refresher>
+    <!-- this is the book appointment section -->
+
+    <div style="overflow-x: auto;">
+      <!-- this  is to display only the booking section when the ion-segnemt for Book is clicked -->
+      <div *ngIf="book_appt">
+        <h2>Book Appointment</h2>
+        <fieldset class="book">
+
+          <form [formGroup]="form" (ngSubmit)="submitAppt()" novalidate>
+
+            <div class="appoint">
+              <ion-datetime color="medium" presentation="date" [isDateEnabled]="isWeekday" (ionChange)="getDate($event)"
+                class="calendar" required formControlName="appointment_date">
+                <p style="font-size: small; color: gray;" slot="title">.</p>
+                <span slot="title" class="error ion-padding" *ngIf="!appointment_date">
+                  Select Appointmet Date .
+                </span>
+                <span slot="title" class="error ion-padding" *ngIf="show_time_slot">Select future date</span>
+              </ion-datetime>
+
+              <div *ngIf="no_booking" class="option animate">
+                <h2 style="color: red;">SELECT A DIFFERENT DATE!!!!!!! <br><br> You have reached maximum of 2 bookings
+                  for the selected DATE</h2>
+              </div>
+
+              <div *ngIf="appointment_date" class="option">
+
+                <!-- this is the select service dropdown selection -->
+                <ion-item *ngIf="appointment_date " class="start animate">
+                  <ion-select placeholder="Select Service" (ionChange)="getServiceId_for_doctor($event)"
+                    label="Select Service" label-placement="stacked" required formControlName="service_id">
+                    <ion-select-option *ngFor="let service of Service" [value]="service.service_id">
+                      {{service.service_name}}
+                    </ion-select-option>
+                  </ion-select>
+                  <!-- this will show only when the selcect service is empty -->
+                  <span class="error ion-padding" *ngIf="!service_id">
+                    Select Service
+                  </span>
+                </ion-item><br>
+
+                <!-- this is the select doctor depending on the service shosen -->
+                <ion-item *ngIf="service_id " class="animate">
+                  <ion-select placeholder="Select Docotor" (ionChange)="getDoctorId($event)" label="Select Doctor"
+                    label-placement="stacked" required formControlName="doctor_id">
+                    <ion-select-option *ngFor="let doctor of doctor" [value]="doctor.doctor_id">
+                      {{doctor.doctor_name}}
+                    </ion-select-option>
+                  </ion-select>
+                  <!-- this will display is a doctor is not selected -->
+                  <span class="error ion-padding" *ngIf="!doctor_id ">
+                    Select Doctor.
+                  </span>
+                </ion-item><br>
+
+                <!-- this is a textarea to discribe your complain -->
+                <ion-textarea class="animate" *ngIf="textarea" [maxlength]="200" [autoGrow]="true"
+                  label="Reasons For appointment" labelPlacement="floating" fill="block" placeholder="Enter text"
+                  required formControlName="reason_for_appointment">
+                </ion-textarea><br><br>
+
+                <!-- this is to select the appointment time -->
+                <div class="time animate" *ngIf="!doctors_slot">
+                  <label style="margin: 30px 0px 0px 15px; font-size: 16px;">Doctors availble time slots</label><span
+                    style="font-size: 16px; margin-left: 20px;" *ngIf="show_time_slot ">Select future
+                    date</span>
+                  <ion-grid [fixed]="true">
+                    <ion-row *ngFor="let time of time_slot ">
+                      <ion-button onclick="document.getElementById('id01').style.display='block'"
+                        style="--background: {{compareTime(time)}}"
+                        [disabled]="show_time_slot || doctors_slot || form.invalid" size="small" class="btn1"
+                        (click)="getTime(time)">
+                        <ion-col size="4" size-md="4" size-lg="2">
+                          {{time}}<sup></sup>
+                        </ion-col>
+                      </ion-button>
+                    </ion-row>
+                  </ion-grid>
+                </div><br>
+
+                <div *ngIf="appointment_date">
+
+                  <ion-button color="danger" (click)="reset()" class="btn1" type="reset" shape="round"
+                    expand="block">Reset</ion-button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </fieldset>
+      </div>
+      <!-- end of book segment -->
+
+
+      <!-- display appointments when the appointment segment is clicked -->
+      <div *ngIf="show_appt">
+
+        <h2>Appointments</h2>
+        <ion-card>
+          <div style="overflow-x: auto;">
+            <table>
+              <thead>
+                <tr class="thead">
+                  <th>Appointment ID</th>
+                  <th>Doctor's Name</th>
+                  <th>Appointment Date</th>
+                  <th>Appointment Time</th>
+                  <th>Appointment Day</th>
+                  <th>Appointment Service</th>
+                  <th>Appointment Reason</th>
+                  <th>Appointment Status</th>
+                  <th>Doctors Comment</th>
+                  <th>Cancel Appointment</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let appnt of Appointment">
+                  <td>{{appnt.appointment_id}}</td>
+                  <td>{{appnt.doctor_name}}</td>
+                  <td>{{appnt.appointment_date}}</td>
+                  <td>{{appnt.appointment_time}}</td>
+                  <td>{{setDay(appnt.appointment_date)}}</td>
+                  <td>{{appnt.service_name}}</td>
+                  <td>{{appnt.reason_for_appointment}}</td>
+                  <td><span style="color: {{statusColor(appnt.status)}}">{{appnt.status}}</span></td>
+                  <td>{{appnt.doctor_comment}}</td>
+                  <td><ion-button (click)="deleteAppointment(appnt.appointment_id)" fill="clear" color="danger"
+                      style="padding: 0px 1rem 0px 1rem;"><ion-icon name="trash-outline"></ion-icon></ion-button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </ion-card>
+      </div>
+    </div>
+  </div>
+  <!-- end of the appointment segment -->
+
+  <div *ngIf="show_hist">
+    <div class="history_h">
+      <h2>History</h2>
+    </div>
+    <ion-card>
+      <ion-button id="present-alert" slots="end" color="danger" shape="round" fill="clear" class="bt1">Clear
+        History</ion-button>
+
+      <ion-alert trigger="present-alert" header="Are you sure you want to clear your history ?????"
+        [buttons]="clearHistory">
+      </ion-alert>
+      <div style="overflow-x: auto;">
+        <table>
+          <thead>
+            <tr class="thead">
+              <th>Appointment ID</th>
+              <th>Doctor's Name</th>
+              <th>Appointment Date</th>
+              <th>Appointment Time</th>
+              <th>Appointment Day</th>
+              <th>Appointment Service</th>
+              <th>Appointment Reason</th>
+              <th>Appointment Status</th>
+              <th>Doctors Cooment</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let appnt of Appointment_history">
+              <td>{{appnt.appointment_id}}</td>
+              <td>{{appnt.doctor_name}}</td>
+              <td>{{appnt.appointment_date}}</td>
+              <td>{{appnt.appointment_time}}</td>
+              <td>{{setDay(appnt.appointment_date)}}</td>
+              <td>{{appnt.service_name}}</td>
+              <td>{{appnt.reason_for_appointment}}</td>
+              <td><span style="color: {{statusColor(appnt.status)}}">{{appnt.status}}</span></td>
+              <td>{{appnt.doctor_comment}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </ion-card>
+
+  </div>
+
+  <div id="id01" class="modal">
+    <div *ngIf="display_available">
+      <ion-card class="modal-content animate">
+        <ion-card-header>
+          <div class="headcontainer">
+            <span onclick="document.getElementById('id01').style.display='none'" class="close"
+              title="Close">&times;</span><br><br>
+          </div>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-card-title class="headcontainer" color="danger">
+            <h1 style="margin-bottom: 10%;">Slot not availble</h1>
+          </ion-card-title>
+        </ion-card-content>
+      </ion-card>
+    </div>
+
+    <div *ngIf="!display_available">
+      <ion-card class="modal-content animate">
+        <ion-card-header>
+          <div class="headcontainer">
+            <span onclick="document.getElementById('id01').style.display='none'" class="close"
+              title="Cansel Appointment" (click)="reset()">&times;</span><br><br>
+            <ion-card-title color="danger">Make Appointment</ion-card-title> <br><br>
+            <ion-card-title>Appointment Datails</ion-card-title>
+          </div>
+        </ion-card-header>
+
+        <ion-card-content>
+          <table style="font-size: 20px; ">
+            <tbody>
+              <tr>
+                <td style="text-align: right;">
+                  Docotr Name :
+                </td>
+                <td style="text-align: left;">
+                  {{doctor_name}}
+                </td>
+              </tr>
+              <tr>
+                <td style="text-align: right;">
+                  Appointment Date :
+                </td>
+                <td style="text-align: left;">
+                  {{appointment_date}}
+                </td>
+              </tr>
+              <tr>
+                <td style="text-align: right;">
+                  Appointment Day:
+                </td>
+                <td style="text-align: left;">
+                  {{setDay(appointment_date)}}
+                </td>
+              </tr>
+              <tr>
+                <td style="text-align: right;">
+                  Appointment Time:
+                </td>
+                <td style="text-align: left;">
+                  {{appointment_Time}}
+                  &nbsp; Duration: 30mns
+                </td>
+              </tr>
+              <tr>
+                <td style="text-align: right;">
+                  Reason For Appointment:
+                </td>
+                <td style="text-align: left;">
+                  {{form.value.reason_for_appointment}}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+        </ion-card-content><br><br><br><br>
+
+        <div class="container">
+          <ion-button color="success" fill="solid" onclick="document.getElementById('id01').style.display='none'"
+            (click)="submitAppt()">Cornfirm </ion-button>
+          <ion-button color="warning" fill="clear" onclick="document.getElementById('id01').style.display='none'"
+            (click)="showTextarea()">Modify Or Change Time</ion-button>
+        </div><br><br><br>
+
+      </ion-card>
+    </div>
+  </div>
+</ion-content>

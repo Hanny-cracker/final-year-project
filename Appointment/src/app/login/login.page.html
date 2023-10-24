@@ -1,0 +1,120 @@
+<ion-content [fullscreen]="true">
+
+  <ion-toolbar>
+    <ion-button size="large" fill="clear" (click)="goBack()" slot="start">
+      <ion-icon color="dark" size="large" name="arrow-back"></ion-icon>
+    </ion-button>
+  </ion-toolbar>
+
+  <div *ngIf="register_login">
+    <ion-card class="log_in">
+
+      <form [formGroup]="log_in" (ngSubmit)="login()" novalidate>
+        <span class="span">SIGN-IN</span>
+
+        <ion-input label="Email Address" type="text" fill="solid" label="Email" labelPlacement="floating" fill="solid"
+          placeholder="Enter Email Address" required formControlName="email">
+        </ion-input>
+
+        <ion-input label="Password" label-placement="floating" fill="solid" type="password" required
+          formControlName="password"></ion-input>
+        <div class="buttons">
+          <ion-button class="bttn" type="submit" shape="round" color="success" size="small"
+            [disabled]="log_in.invalid">
+            SIGN-IN <ion-icon name="enter"></ion-icon>
+          </ion-button>
+          <ion-button class="bttn" (click)="signUp()" shape="round" color="medium" size="small">
+            SIGN-UP <ion-icon name="add-circle"></ion-icon></ion-button>
+        </div>
+      </form>
+      
+    </ion-card>
+    <ion-alert [isOpen]="isAlertOpen" header="Alert" subHeader="ERROR!!" message="User Name/Password Not Correct!"
+      [buttons]="alertButtons" (didDismiss)="setOpen(false)">
+    </ion-alert>
+  </div>
+
+  <div *ngIf="!register_login">
+    <ion-card class="register">
+
+      <form [formGroup]="sign_up" (ngSubmit)="check_email()" novalidate>
+
+        <span class="span">SIGN_UP</span>
+        <table>
+          <tr>
+            <td>
+              <ion-input type="text" fill="solid" label="First Name" labelPlacement="floating" required
+                formControlName="first_name">
+              </ion-input>
+            </td>
+            <td>
+              <ion-input type="text" fill="solid" label="Last Name" labelPlacement="floating" required
+                formControlName="last_name">
+              </ion-input>
+            </td>
+            <td>
+              <ion-input type="date" fill="solid" label="Date Of Birth" labelPlacement="floating" required
+                formControlName="date_of_birth">
+              </ion-input>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <ion-input type="email" fill="solid" label="Email" labelPlacement="floating" errorText="Invalid email"
+                ngModel email required formControlName="email_address">
+              </ion-input>
+            </td>
+            <td>
+              <ion-input type="text" fill="solid" label="Address" labelPlacement="floating" required
+                formControlName="address">
+              </ion-input>
+            </td>
+            <td>
+              <ion-input type="number" fill="solid" label="Phone Number" labelPlacement="floating" required
+                formControlName="phone_no">
+              </ion-input>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label>Gender : &nbsp;</label><br><br>
+              <ion-radio-group value="custom-checked" required formControlName="gender">
+                <ion-radio value="Male">Male</ion-radio>
+                <ion-radio value="Female">Female</ion-radio>
+                <ion-radio value="other">Other</ion-radio>
+              </ion-radio-group>
+            </td>
+            <td>
+              <label>Marital status : &nbsp;</label><br><br>
+              <ion-radio-group value="custom-checked" required formControlName="status">
+                <ion-radio value="Single">Single</ion-radio>
+                <ion-radio value="Married">Married</ion-radio>
+              </ion-radio-group>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <ion-input label="Enter Password" label-placement="floating" fill="solid" type="password" required
+                formControlName="password" errorText="enter password">
+              </ion-input>
+            </td>
+          </tr>
+        </table>
+
+        <div class="buttons">
+          <ion-button type="submit" shape="round" color="success" size="small"
+            [disabled]="sign_up.invalid">
+            Submit <ion-icon name="send-outline"></ion-icon>
+          </ion-button>
+          <ion-button type="reset" shape="round" color="danger" size="small">
+            RESET <ion-icon name="refresh-circle-outline"></ion-icon></ion-button>
+        </div>
+      </form>
+    </ion-card>
+
+    <ion-alert [isOpen]="isAlertOpen_E" header="Alert" subHeader="ERROR!!" message="Email Allready Exist!"
+    [buttons]="alertButtons" (didDismiss)="setOpen_E(false)">
+  </ion-alert>
+
+  </div>
+</ion-content>

@@ -1,0 +1,85 @@
+<!-- <ion-header [translucent]="true"> -->
+<ion-toolbar>
+  <ion-buttons slot="start">
+    <ion-menu-button></ion-menu-button>
+  </ion-buttons>
+
+  <div class="tool">
+    <ion-title>{{folder}}</ion-title>
+  </div>
+
+</ion-toolbar>
+<ion-content [fullscreen]="true">
+
+  <ion-card>
+    <ion-button class="buttons" *ngIf="!editMode" (click)="deleteUser()" color="danger" fill="outline"><ion-icon
+        name="trash" slot="start"></ion-icon>Delete Account</ion-button>
+    <ion-button class="signout" shape="round" (click)="logOut()" size="small" fill="outline" aria-label="Favorite">
+      Log out
+      <ion-icon slot="end" size="small" name="log-out-outline"></ion-icon>
+    </ion-button>
+    <ion-card-header>
+      <ion-card-title>
+        <h1 class="center">Profile Details</h1>
+      </ion-card-title>
+    </ion-card-header>
+
+    <ion-button class="buttons" (click)="edit()" *ngIf="!editMode" fill="clear"><ion-icon name="create"
+        slot="start"></ion-icon>Edit</ion-button>
+    <ion-card-content>
+      <div class="table">
+        <table>
+          <tbody>
+            <tr>
+              <td>
+                <h2><b>Hospital Address </b></h2>
+              </td>
+              <td>
+                <h2>
+                  <span *ngIf="!editMode"> {{admin_details.hospital_email}}</span>
+                  <span *ngIf="editMode"><ion-input [(ngModel)]="admin_details.hospital_email"></ion-input></span>
+                </h2>
+              </td>
+            </tr><br><br>
+            <tr>
+              <td>
+                <h2><b>Hospital Name </b></h2>
+              </td>
+              <td>
+                <h2>
+                  <span *ngIf="!editMode"> {{admin_details.hospital_name}} </span>
+                  <span *ngIf="editMode"><ion-input [(ngModel)]="admin_details.hospital_name"></ion-input></span>
+                </h2>
+              </td>&nbsp;&nbsp;&nbsp;
+            <tr>
+              <td>
+                <h2><b>Hospital Address </b></h2>
+              </td>
+              <td>
+                <h2>
+                  <span *ngIf="!editMode"> {{admin_details.hospital_address}}</span>
+                  <span *ngIf="editMode"><ion-input [(ngModel)]="admin_details.hospital_address"></ion-input></span>
+                </h2>
+              </td>
+              &nbsp;&nbsp;&nbsp;
+              <td>
+                <h2> <b>Phone Numbre </b></h2>
+              </td>
+              <td>
+                <h2>
+                  <span *ngIf="!editMode"> {{admin_details.hospital_contact_no}}</span>
+                  <span *ngIf="editMode"><ion-input [(ngModel)]="admin_details.hospital_contact_no"></ion-input></span>
+                </h2>
+              </td>
+            </tr><br>
+            <br><br>
+          </tbody>
+        </table>
+      </div>
+      <ion-button class="buttons" (click)="save()" *ngIf="editMode" fill="clear"><ion-icon name="checkmark-done-circle"
+          slot="start"></ion-icon>Save</ion-button>
+    </ion-card-content>
+
+  </ion-card>
+
+</ion-content>

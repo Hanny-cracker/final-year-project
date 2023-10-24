@@ -1,0 +1,95 @@
+<!-- this is the patient panel -->
+<ion-app *ngIf="Patient">
+  <ion-split-pane contentId="main-content">
+    <ion-menu class="menu" contentId="main-content" type="overlay">
+      <ion-content hidden="true">
+        <ion-list id="inbox-list">
+          <div class="head">
+            <ion-list-header>{{name}}</ion-list-header>
+          </div>
+          <ion-menu-toggle auto-hide="false" *ngFor="let p of Patients; let i = index">
+            <ion-item routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false"
+              routerLinkActive="selected">
+              <ion-icon aria-hidden="true" slot="start" [name]="p.icon "></ion-icon>
+              <ion-badge color="success"></ion-badge>
+              <ion-label>{{ p.title }}</ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+        </ion-list>
+      </ion-content>
+    </ion-menu>
+    <ion-router-outlet id="main-content"></ion-router-outlet>
+  </ion-split-pane>
+</ion-app>
+
+<!-- this is the Admins panel -->
+<ion-app *ngIf="Admin">
+  <ion-split-pane contentId="main-content">
+    <ion-menu class="menu" contentId="main-content" type="overlay">
+      <ion-content hidden="true">
+        <ion-list id="inbox-list">
+          <div class="head">
+            <ion-list-header>{{name}}</ion-list-header>
+          </div>
+          <ion-menu-toggle auto-hide="false" *ngFor="let p of Admins; let i = index">
+            <ion-item routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false"
+              routerLinkActive="selected">
+              <ion-icon aria-hidden="true" slot="start" [name]="p.icon "></ion-icon>
+              <ion-badge color="success"></ion-badge>
+              <ion-label>{{ p.title }}</ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+        </ion-list>
+      </ion-content>
+    </ion-menu>
+    <ion-router-outlet id="main-content"></ion-router-outlet>
+  </ion-split-pane>
+</ion-app>
+
+<!-- This is the doctors panel -->
+<ion-app *ngIf="Doctor">
+  <ion-split-pane contentId="main-content">
+    <ion-menu class="menu" contentId="main-content" type="overlay">
+      <ion-content hidden="true">
+        <ion-list id="inbox-list">
+          <div class="head">
+            <ion-list-header>{{name}}</ion-list-header>
+          </div>
+          <ion-menu-toggle auto-hide="false" *ngFor="let p of Doctors; let i = index">
+            <ion-item routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false"
+              routerLinkActive="selected">
+              <ion-icon aria-hidden="true" slot="start" [name]="p.icon "></ion-icon>
+              <ion-badge color="success"></ion-badge>
+              <ion-label>{{ p.title }}</ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+        </ion-list>
+      </ion-content>
+    </ion-menu>
+    <ion-router-outlet id="main-content"></ion-router-outlet>
+  </ion-split-pane>
+</ion-app>
+
+<!-- This is the sign-in panel -->
+<ion-app *ngIf="sign_in">
+  <ion-split-pane contentId="main-content">
+    <ion-menu class="menu" contentId="main-content" type="overlay">
+      <ion-content hidden="true">
+        <ion-list id="inbox-list">
+          <div class="head">
+            <ion-list-header>Welcome</ion-list-header>
+          </div>
+          <ion-menu-toggle auto-hide="false" *ngFor="let p of homepage; let i = index">
+            <ion-item routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false"
+              routerLinkActive="selected">
+              <ion-icon aria-hidden="true" slot="start" [name]="p.icon "></ion-icon>
+              <ion-badge color="success"></ion-badge>
+              <ion-label>{{ p.title }}</ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+        </ion-list>
+      </ion-content>
+    </ion-menu>
+    <ion-router-outlet id="main-content"></ion-router-outlet>
+  </ion-split-pane>
+</ion-app>

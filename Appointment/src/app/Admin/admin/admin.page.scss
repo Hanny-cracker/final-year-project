@@ -1,0 +1,79 @@
+ion-menu-button {
+  color: var(--ion-color-primary);
+}
+
+ion-toolbar{
+  --opacity: 50%;
+}
+
+*{margin-left: 5px;}
+
+ion-card{
+  color: black;
+  padding: 20px;
+  
+}
+
+table {
+  margin-top: 10px;
+  border-collapse: collapse;
+  width: 100%;
+  text-align: center;
+  font-size: 15px;
+}
+
+th{
+  font-size: 17px;
+}
+
+tr{
+  height: 50px;
+  border-bottom: 0.5px solid rgb(174, 174, 174);
+}
+
+ion-grid {
+  --ion-grid-columns: 4;
+  display: flex;
+  flex-wrap: wrap;
+  grid-gap: 5px;
+}
+
+.number{
+  background: linear-gradient(to bottom, #666699b4 0%, #ccffffc5 64%);
+}
+
+.tool {
+  display: flex;
+}
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 20%;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  padding-top: 60px;
+}
+
+/* Modal Content/Box */
+.modal-content {
+  background-color: #fefefe;
+  // margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
+  border: 1px solid #888;
+  width: 50%; /* Could be more or less, depending on screen size */
+}
+
+/* The Close Button (x) */
+.close {
+  position: absolute;
+  right: 25px;
+  top: 0;
+  color: #000;
+  font-size: 35px;
+  font-weight: bold;
+}
+// .service{
+//   background: linear-gradient(to bottom, #0099cc53 0%, #ccccff6c 64%);
+// }

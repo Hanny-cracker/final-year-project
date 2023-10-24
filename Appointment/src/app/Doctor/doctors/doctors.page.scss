@@ -1,0 +1,23 @@
+ion-menu-button {
+  color: var(--ion-color-primary);
+}
+
+ion-grid {
+  --ion-grid-columns: 4;
+  display: flex;
+  flex-wrap: wrap;
+  grid-gap: 5px;
+}
+
+//this is to style the time in the time slote grid
+ion-col {
+  text-align: center;
+  color: #ffffff;
+  border-radius: 50px;
+  padding: 5px; 
+}
+
+ion-card{
+  color: black;
+  margin: 5%;
+}

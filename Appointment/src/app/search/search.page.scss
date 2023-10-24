@@ -1,0 +1,40 @@
+ion-menu-button {
+  color: var(--ion-color-primary);
+}
+
+* {
+  margin-left: 5px;
+}
+
+ion-card {
+  color: black;
+  padding: 20px;
+
+}
+
+.tool {
+  display: flex;
+}
+
+th {
+  font-size: 18px;
+}
+
+table {
+  font-size: 15px;
+  border-collapse: collapse;
+  width: 100%;
+  text-align: center;
+}
+
+tr {
+  height: 50px;
+  border-bottom: 0.5px solid rgb(174, 174, 174);
+}
+
+ion-grid {
+  --ion-grid-columns: 4;
+  display: flex;
+  flex-wrap: wrap;
+  grid-gap: 5px;
+}

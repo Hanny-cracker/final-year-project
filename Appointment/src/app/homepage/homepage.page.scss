@@ -1,0 +1,138 @@
+ion-menu-button {
+  color: var(--ion-color-primary);
+}
+
+// *{font-size: 15px;}
+
+ion-toolbar {
+  --background: rgba(255, 255, 255, 0.69);
+}
+
+div.background {
+  background: url(/assets/background.png) no-repeat;
+  background-size: cover;
+  height: 65vh;
+}
+
+ion-popover {
+  --width: 160px;
+}
+
+.overlap {
+  position: absolute;
+  top: 4rem;
+  bottom: 0;
+  box-sizing: border-box;
+  color: #fff;
+}
+
+// This is to position the header component ie the Home and the avater
+.tool {
+  display: flex;
+}
+
+ion-card {
+  background-color: #cbd1da;
+  color: black;
+}
+
+.avatar {
+  margin: 0rem 0.5rem 0rem 0rem;
+  float: right;
+  vertical-align: middle;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+ion-searchbar {
+  padding: 2% 8% 0px 24%;
+  --border-radius: 20px;
+}
+
+#p1 {
+  margin-left: 30%;
+  margin-right: 10%;
+  color: black;
+  text-align: center;
+  font-size: 45px;
+  font-family: Copperplate, Papyrus, fantasy;
+}
+
+.home_page {
+  margin-bottom: 100px;
+}
+
+ion-button span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+.service {
+  margin: 0px -10% 0px 10%;
+  background-color: #87aadf00;
+  border-radius: 10px;
+  padding-bottom: 0px;
+}
+
+#p2 {
+  padding: 40px 0px 0px 10px;
+  font-size: large;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  color: rgb(0, 0, 0);
+  text-align: center;
+  font-size: 20px;
+}
+
+//this is to display the service and doctors in a grid format
+ion-grid {
+  --ion-grid-columns: 2;
+  display: flex;
+  flex-wrap: wrap;
+  grid-gap: 85px;
+}
+
+.cards {
+  margin: 20px 20px 10px 20px;
+  padding: 5px 0px 5px 0px;
+  border-radius: 5px;
+}
+
+@media screen and (max-width:1300px) {
+  div.background {
+    height: 60vh;
+  }
+
+  #p1 {
+    font-size: 40px;
+    margin: 0px 15% 0px 15%;
+  }
+
+  ion-searchbar {
+    padding: 2% 20% 0px 20%;
+  }
+
+  ion-grid {
+    grid-gap: 50px;
+  }
+}
+
+@media screen and (max-width:800px) {
+  .service {
+    border-radius: 10px;
+    padding-bottom: px;
+  }
+
+  ion-grid {
+    grid-gap: 5px;
+    margin: 0px 0px 0px 0px;
+  }
+
+  .cards {
+    margin: 20px 20px 10px 20px;
+    padding: 5px 0px 5px 0px;
+  }
+
+}

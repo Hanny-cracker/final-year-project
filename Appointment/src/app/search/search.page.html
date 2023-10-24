@@ -1,0 +1,49 @@
+<ion-toolbar>
+  <ion-buttons slot="start">
+    <ion-menu-button></ion-menu-button>
+  </ion-buttons>
+
+  <div class="tool">
+    <ion-title>{{folder}}</ion-title>
+    <div>
+      <ion-button (click)="login()" style="width:9.5rem;" color="dark" shape="round" fill="clear">
+        <ion-icon color="dark" size="large" name="person-circle-outline"></ion-icon>
+        Sign-in
+      </ion-button>
+      <ion-button (click)="sign_up()" style="width:9.5rem;" color="dark" shape="round" fill="clear">
+        <ion-icon color="dark" size="large" name="person-add"></ion-icon>
+        Register
+      </ion-button>
+    </div>
+  </div>
+</ion-toolbar>
+
+
+<ion-content [fullscreen]="true">
+  <ion-card class="doctor">
+    <ion-searchbar animated="true" placeholder="Search Doctor" [debounce]="1000"
+      (ionInput)="handleInput_D($event)"></ion-searchbar>
+    <div style="overflow-x: auto;">
+      <table>
+        <thead>
+          <tr>
+            <th>Doctor Name</th>
+            <th>Servce Proving</th>
+            <th>Doctor Email</th>
+            <th>Doctor Phone Number</th>
+            <th>Doctor Expert In</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let doc of Doc_results">
+            <td>{{doc.doctor_name}}</td>
+            <td>{{doc.service_name}}</td>
+            <td>{{doc.doctor_email_address}}</td>
+            <td>{{doc.doctor_phone_no}}</td>
+            <td>{{doc.doctor_expert_in}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </ion-card>
+</ion-content>

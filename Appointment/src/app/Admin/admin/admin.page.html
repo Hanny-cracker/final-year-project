@@ -1,0 +1,418 @@
+<ion-toolbar>
+  <ion-buttons slot="start">
+    <ion-menu-button></ion-menu-button>
+  </ion-buttons>
+
+  <div class="tool">
+    <ion-segment (ionChange)="displaySegment($event)" [value]="segment">
+      <ion-segment-button value="Dashboard">
+        <ion-label>Dashboard</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="Doctor">
+        <ion-label>Doctors</ion-label>
+      </ion-segment-button>
+      <ion-segment-button click="click()" value="Patient">
+        <ion-label>Patients</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </div>
+
+</ion-toolbar>
+
+<ion-content [fullscreen]="true">
+  <div *ngIf="show_dash">
+    <ion-card class="number">
+      <table>
+        <thead>
+          <tr>
+            <th>Number of Services</th>
+            <th>Number of Doctors</th>
+            <th>Number of Patients</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{Services.length}}</td>
+            <td>{{Doctors.length}}</td>
+            <td>{{Patients.length}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </ion-card>
+
+    <ion-card class="service">
+      <ion-button style="float: right;" fill="clear">Add Services<ion-icon size="large"
+          name="add-circle-outline"></ion-icon></ion-button>
+      <h2>Services</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Service Icon</th>
+            <th>Service ID</th>
+            <th>Service Name</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let service of Services">
+            <td> <img alt="Service-image" [src]="service.service_logo" style="border-radius: 50px;" height="50px"
+                width="50px">
+            </td>
+            <td>{{service.service_id}}</td>
+            <td>{{service.service_name}}</td>
+            <td>
+              <ion-button (click)="deleteService(service.service_id)" fill="clear"><ion-icon color="danger"
+                  name="trash"></ion-icon></ion-button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </ion-card>
+  </div>
+
+  <div *ngIf="show_doc">
+    <ion-card class="doctor">
+      <ion-searchbar animated="true" placeholder="Search Doctor" [debounce]="1000"
+        (ionInput)="handleInput_D($event)"></ion-searchbar>
+
+      <ion-button  onclick="document.getElementById('id02').style.display='block'" style="float: right;" fill="clear">Add Doctor <ion-icon size="large"
+          name="add-circle-outline"></ion-icon></ion-button>
+      <h2>Doctors</h2>
+
+      <div style="overflow-x: auto;">
+        <table>
+          <thead>
+            <tr>
+              <th>Doctor ID</th>
+              <th>Service ID</th>
+              <th>Servce Name</th>
+              <th>Doctor Name</th>
+              <th>Doctor Email</th>
+              <th>Doctor Phone Number</th>
+              <th>Doctor Date Of Birth</th>
+              <th>Doctor Address</th>
+              <th>Doctor Degree</th>
+              <th>Doctor Expert In</th>
+              <th>doctor Added On</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let doc of Doc_results">
+              <td>{{doc.doctor_id}}</td>
+              <td>{{doc.service_id}}</td>
+              <td>{{doc.service_name}}</td>
+              <td>{{doc.doctor_name}}</td>
+              <td>{{doc.doctor_email_address}}</td>
+              <td>{{doc.doctor_phone_no}}</td>
+              <td>{{doc.doctor_date_of_birth}}</td>
+              <td>{{doc.doctor_address}}</td>
+              <td>{{doc.doctor_degree}}</td>
+              <td>{{doc.doctor_expert_in}}</td>
+              <td>{{doc.doctor_added_on}}</td>
+              <td>
+                <ion-button (click)="Doct(doc)" onclick="document.getElementById('id01').style.display='block'"
+                  fill="clear"><ion-icon name="create"></ion-icon></ion-button>
+                <ion-button (click)="deleteUser(doc.user_id)" fill="clear"><ion-icon color="danger"
+                    name="trash"></ion-icon></ion-button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </ion-card>
+  </div>
+
+  <div *ngIf="show_pat">
+    <ion-card class="patient">
+      <ion-searchbar animated="true" placeholder="Search Patient By first name" [debounce]="1000"
+        (ionInput)="handleInput_P($event)"></ion-searchbar>
+      <h2>Patients</h2>
+      <div style=" overflow-x: auto;">
+        <table>
+          <thead>
+            <tr>
+              <th>Patient Id</th>
+              <th>Patient Email</th>
+              <th>Patient Name</th>
+              <th>Patient Date of Birth</th>
+              <th>Patient Gender</th>
+              <th>Patient Address</th>
+              <th>Patient Phone Number</th>
+              <th>Patient Marital Status</th>
+              <th>Patient Added On</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let patient of Pat_results">
+              <td>{{patient.patient_id}}</td>
+              <td>{{patient.patient_email_address}}</td>
+              <td>{{patient.patient_first_name}} {{patient.patient_last_name}}</td>
+              <td>{{patient.patient_date_of_birth}}</td>
+              <td>{{patient.patient_gender}}</td>
+              <td>{{patient.patient_address}}</td>
+              <td>{{patient.patient_phone_no}}</td>
+              <td>{{patient.patient_marital_status}}</td>
+              <td>{{patient.patient_added_on}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </ion-card>
+  </div>
+
+<!-- this is to view doctors details -->
+  <div id="id01" class="modal">
+    <div>
+      <ion-card class="modal-content animate">
+        <ion-card-header>
+          <div class="headcontainer">
+            <ion-item>
+              <span onclick="document.getElementById('id01').style.display='none'" class="close"
+                title="Close">&times;</span>
+              <ion-card-title>
+                <h1>View Doctor Datails</h1>
+              </ion-card-title>
+            </ion-item>
+          </div>
+        </ion-card-header>
+        <ion-card-content>
+          <table>
+            <tbody>
+              <tr>
+                <td>
+                  <h2><b>Email Address </b></h2>
+                </td>
+                <td>
+                  <ion-input [(ngModel)]="doctor_datials.doctor_email_address"></ion-input>
+                </td>
+              </tr><br><br>
+              <tr>
+                <td>
+                  <h2><b>Doctor Name </b></h2>
+                </td>
+                <td>
+                  <ion-input [(ngModel)]="doctor_datials.doctor_name"></ion-input>
+                </td>
+                &nbsp;&nbsp;&nbsp;
+                <td>
+                  <h2><b>expert in </b></h2>
+                </td>
+                <td>
+                  <ion-input [(ngModel)]="doctor_datials.doctor_expert_in"></ion-input>
+                </td>
+              </tr><br>
+              <tr>
+                <td>
+                  <h2> <b>Date Of Birth </b></h2>
+                </td>
+                <td>
+                  <ion-input [(ngModel)]="doctor_datials.doctor_date_of_birth"></ion-input>
+                </td>
+                &nbsp;&nbsp;&nbsp;
+                <td>
+                  <h2><b> Service Providing</b></h2>
+                </td>
+                <td>
+                  <ion-input [(ngModel)]="doctor_datials.service_provided"></ion-input>
+                </td>
+              </tr><br>
+              <tr>
+                <td>
+                  <h2><b>Address </b></h2>
+                </td>
+                <td>
+                  <ion-input [(ngModel)]="doctor_datials.doctor_address"></ion-input>
+                </td>
+                &nbsp;&nbsp;&nbsp;
+                <td>
+                  <h2> <b>Phone Numbre </b></h2>
+                </td>
+                <td>
+                  <ion-input [(ngModel)]="doctor_datials.doctor_phone_no"></ion-input>
+                </td>
+              </tr><br>
+              <tr>
+                <td>
+                  <h2><b>Degree </b></h2>
+                </td>
+                <td>
+                  <ion-input [(ngModel)]="doctor_datials.doctor_degree"></ion-input>
+                </td>
+                &nbsp;&nbsp;&nbsp;
+                <td>
+                  <h2><b>Account Created On </b></h2>
+                </td>
+                <td>
+                  <ion-input disabled="true" [(ngModel)]="doctor_datials.doctor_added_on"></ion-input>
+                </td>
+              </tr>
+              <br><br>
+            </tbody>
+          </table>
+
+          <ion-grid>
+            <ion-row>
+              <ion-col *ngIf="edit">
+                <ion-card>
+                  <ion-card-header> Appointment Schedule slots </ion-card-header>
+                  <ion-button (click)="save()" size="small" color="warning">save</ion-button>
+
+                  <div>
+                    <ion-grid>
+                      <ion-row *ngFor="let time of time_slots">
+                        <ion-col>
+                          <ion-button (click)="my_time(time)">{{time}}</ion-button>
+                        </ion-col>
+                      </ion-row>
+                    </ion-grid>
+                  </div>
+
+                </ion-card>
+              </ion-col>
+              <ion-col>
+                <ion-card>
+                  <ion-card-header>Doctors Scheduled slots </ion-card-header>
+                  <ion-button *ngIf="!edit" (click)="modify()" size="small" color="warning">Edit</ion-button>
+
+                  <div>
+                    <ion-grid>
+                      <ion-row *ngFor="let time of time_slot">
+                        <ion-col>
+                          <ion-button disabled="true" color="success">{{time}}</ion-button>
+                        </ion-col>
+                      </ion-row>
+                    </ion-grid>
+                  </div>
+
+                </ion-card>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-card-content>
+        <br><br><br><br>
+        <div class="container">
+          <ion-button color="tertiary" fill="solid" (click)="Save()"
+            onclick="document.getElementById('id01').style.display='none'">Save </ion-button>
+          <ion-button onclick="document.getElementById('id01').style.display='none'" color="success" fill="clear"
+            onclick="document.getElementById('id01').style.display='none'">Close</ion-button>
+        </div><br><br><br>
+      </ion-card>
+    </div>
+  </div>
+
+
+  <!-- this is the form to add new doctors -->
+  <div id="id02" class="modal">
+    <div>
+      <ion-card class="modal-content animate">
+        <form [formGroup]="newDoctor" (ngSubmit)="check_email()" novalidate>
+        
+        <ion-card-header>
+          <div class="headcontainer">
+            <ion-item>
+              <span onclick="document.getElementById('id02').style.display='none'" class="close"
+                title="Close">&times;</span>
+              <ion-card-title>
+                <h1>Add New Doctor</h1>
+              </ion-card-title>
+            </ion-item>
+          </div>
+        </ion-card-header>
+        <ion-card-content>
+          
+          <table>
+            <tbody>
+              <tr>
+                <td>
+                  <h2><b>Email Address </b></h2>
+                </td>
+                <td>
+                  <ion-input label="Enter Email" labelPlacement="floating" type="email" required formControlName="doctor_email_address"></ion-input>
+                </td>
+              </tr><br><br>
+              <tr>
+                <td>
+                  <h2><b>Doctor Name </b></h2>
+                </td>
+                <td>
+                  <ion-input label="Doctors Name" labelPlacement="floating" required formControlName="doctor_name"></ion-input>
+                </td>
+                &nbsp;&nbsp;&nbsp;
+                <td>
+                  <h2><b>expert in </b></h2>
+                </td>
+                <td>
+                  <ion-input label="expert in" labelPlacement="floating" required formControlName="doctor_expert_in"></ion-input>
+                </td>
+              </tr><br>
+              <tr>
+                <td>
+                  <h2> <b>Date Of Birth </b></h2>
+                </td>
+                <td>
+                  <ion-input label="Last Name" labelPlacement="floating" type="date" required formControlName="doctor_date_of_birth"></ion-input>
+                </td>
+                &nbsp;&nbsp;&nbsp;
+                <td>
+                  <h2><b> Service Providing</b></h2>
+                </td>
+                <td>
+                  <ion-select placeholder="Select Service"  label="Select Service" label-placement="stacked" required formControlName="service_id">
+                  <ion-select-option *ngFor="let service of Services" [value]="service.service_id">
+                    {{service.service_name}}
+                  </ion-select-option>
+                </ion-select>
+                </td>
+              </tr><br>
+              <tr>
+                <td>
+                  <h2><b>Address </b></h2>
+                </td>
+                <td>
+                  <ion-input label="Address" labelPlacement="floating" required formControlName="doctor_address"></ion-input>
+                </td>
+                &nbsp;&nbsp;&nbsp;
+                <td>
+                  <h2> <b>Phone Numbre </b></h2>
+                </td>
+                <td>
+                  <ion-input label="Phone Numbre" labelPlacement="floating" type="number" required formControlName="doctor_phone_no"></ion-input>
+                </td>
+              </tr><br>
+              <tr>
+                <td>
+                  <h2><b>Degree </b></h2>
+                </td>
+                <td>
+                  <ion-input label="Degree" labelPlacement="floating" required formControlName="doctor_degree"></ion-input>
+                </td>
+                &nbsp;&nbsp;&nbsp;
+                <td>
+                  <h2><b>Password </b></h2>
+                </td>
+                <td>
+                  <ion-input label="Password" labelPlacement="floating" type="password" required formControlName="pwd"></ion-input>
+                </td>
+              </tr>
+              <br><br>
+            </tbody>
+          </table>
+       
+        </ion-card-content>
+        <br><br><br><br>
+        <div class="container">
+          <ion-button type="submit" [disabled]="newDoctor.invalid" color="tertiary" fill="solid"
+            onclick="document.getElementById('id02').style.display='none'">Create </ion-button>
+          <ion-button onclick="document.getElementById('id02').style.display='none'" color="success" fill="clear"
+            onclick="document.getElementById('id02').style.display='none'">Close</ion-button>
+        </div><br><br><br>
+      </form >
+      </ion-card> 
+      <ion-alert [isOpen]="isAlertOpen" header="Alert" subHeader="ERROR!!" message="Email Allready Exist!"
+      [buttons]="alertButtons" (didDismiss)="setOpen(false)">
+    </ion-alert>    
+    </div>
+  </div>
+
+</ion-content>

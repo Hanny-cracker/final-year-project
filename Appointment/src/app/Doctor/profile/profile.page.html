@@ -1,0 +1,144 @@
+<!-- <ion-header [translucent]="true"> -->
+<ion-toolbar>
+  <ion-buttons slot="start">
+    <ion-menu-button></ion-menu-button>
+  </ion-buttons>
+
+  <div class="tool">
+    <ion-title>{{folder}}</ion-title>
+  </div>
+</ion-toolbar>
+
+<ion-content [fullscreen]="true">
+
+
+  <ion-card>
+
+    <ion-button class="buttons" *ngIf="!editMode" (click)="deleteUser()" color="danger" fill="outline"><ion-icon
+        name="trash" slot="start"></ion-icon>Delete Account</ion-button>
+    <ion-button class="signout" shape="round" (click)="logOut()" size="small" fill="outline" aria-label="Favorite">Log
+      out
+      <ion-icon slot="end" size="small" name="log-out-outline"></ion-icon>
+    </ion-button>
+
+    <ion-card-header>
+      <ion-card-title>
+        <h1 class="center">Profile Details</h1>
+      </ion-card-title>
+    </ion-card-header>
+
+    <ion-button class="buttons" (click)="edit()" *ngIf="!editMode" fill="clear"><ion-icon name="create"
+        slot="start"></ion-icon>Edit</ion-button>
+    <ion-card-content>
+      <div class="table">
+        <table>
+          <tbody>
+            <tr>
+              <td>
+                <h2><b>Email Address </b></h2>
+              </td>
+              <td>
+                <h2>
+                  <span *ngIf="!editMode"> {{doctor_datials.doctor_email_address}}</span>
+                  <span *ngIf="editMode"><ion-input
+                      [(ngModel)]="doctor_datials.doctor_email_address"></ion-input></span>
+                </h2>
+              </td>
+            </tr><br><br>
+            <tr>
+              <td>
+                <h2><b>Doctor Name </b></h2>
+              </td>
+              <td>
+                <h2>
+                  <span *ngIf="!editMode"> {{doctor_datials.doctor_name}} </span>
+                  <span *ngIf="editMode"><ion-input [(ngModel)]="doctor_datials.doctor_name"></ion-input></span>
+                </h2>
+              </td>
+              &nbsp;&nbsp;&nbsp;
+              <td>
+                <h2><b>expert in </b></h2>
+              </td>
+              <td>
+                <h2>
+                  <span *ngIf="!editMode"> {{doctor_datials.doctor_expert_in}} </span>
+                  <span *ngIf="editMode"><ion-input [(ngModel)]="doctor_datials.doctor_expert_in"></ion-input></span>
+                </h2>
+              </td>
+
+            </tr><br>
+            <tr>
+              <td>
+                <h2> <b>Date Of Birth </b></h2>
+              </td>
+              <td>
+                <h2>
+                  <span *ngIf="!editMode"> {{doctor_datials.doctor_date_of_birth}}</span>
+                  <span *ngIf="editMode"><ion-input
+                      [(ngModel)]="doctor_datials.doctor_date_of_birth"></ion-input></span>
+                </h2>
+              </td>
+              &nbsp;&nbsp;&nbsp;
+              <td>
+                <h2><b> Service Providing</b></h2>
+              </td>
+              <td>
+                <h2>
+                  <span *ngIf="!editMode"> {{doctor_datials.service_provided}}</span>
+                  <span *ngIf="editMode"><ion-input [(ngModel)]="doctor_datials.service_provided"></ion-input></span>
+                </h2>
+              </td>
+            </tr><br>
+            <tr>
+              <td>
+                <h2><b>Address </b></h2>
+              </td>
+              <td>
+                <h2>
+                  <span *ngIf="!editMode"> {{doctor_datials.doctor_address}}</span>
+                  <span *ngIf="editMode"><ion-input [(ngModel)]="doctor_datials.doctor_address"></ion-input></span>
+                </h2>
+              </td>
+              &nbsp;&nbsp;&nbsp;
+              <td>
+                <h2> <b>Phone Numbre </b></h2>
+              </td>
+              <td>
+                <h2>
+                  <span *ngIf="!editMode"> {{doctor_datials.doctor_phone_no}}</span>
+                  <span *ngIf="editMode"><ion-input [(ngModel)]="doctor_datials.doctor_phone_no"></ion-input></span>
+                </h2>
+              </td>
+            </tr><br>
+            <tr>
+              <td>
+                <h2><b>Degree </b></h2>
+              </td>
+              <td>
+                <h2>
+                  <span *ngIf="!editMode"> {{doctor_datials.doctor_degree}}</span>
+                  <span *ngIf="editMode"><ion-input [(ngModel)]="doctor_datials.doctor_degree"></ion-input></span>
+                </h2>
+              </td>
+              &nbsp;&nbsp;&nbsp;
+              <td>
+                <h2><b>Account Created On </b></h2>
+              </td>
+              <td>
+                <h2>
+                  <span *ngIf="!editMode"> {{doctor_datials.doctor_added_on}}</span>
+                  <span *ngIf="editMode"><ion-input disabled="true"
+                      [(ngModel)]="doctor_datials.doctor_added_on"></ion-input></span>
+                </h2>
+              </td>
+            </tr>
+            <br><br>
+          </tbody>
+        </table>
+      </div>
+      <ion-button class="buttons" (click)="save()" *ngIf="editMode" fill="clear"><ion-icon name="checkmark-done-circle"
+          slot="start"></ion-icon>Save</ion-button>
+    </ion-card-content>
+  </ion-card>
+
+</ion-content>

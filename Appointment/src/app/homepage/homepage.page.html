@@ -1,0 +1,58 @@
+<ion-toolbar>
+  <ion-buttons slot="start">
+    <ion-menu-button></ion-menu-button>
+  </ion-buttons>
+
+  <div class="tool">
+    <ion-title>{{folder}}</ion-title>
+    <div>
+      <ion-button routerLink="/login/sign-in" style="width:9.5rem;" color="dark" shape="round" fill="clear">
+        <ion-icon color="dark" size="large" name="person-circle-outline"></ion-icon>
+        Sign-in
+      </ion-button>
+      <ion-button routerLink="/login/register" style="width:9.5rem;" color="dark" shape="round" fill="clear">
+        <ion-icon color="dark" size="large" name="person-add"></ion-icon>
+        Register
+      </ion-button>
+    </div>
+  </div>
+</ion-toolbar>
+
+<ion-content [fullscreen]="true">
+
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content pullingIcon="chevron_down-circle-outline" pullingText="Pull to refresh"
+      refreshingSpinner="circles" refreshingText="Refreshing...">
+    </ion-refresher-content>
+  </ion-refresher>
+  
+  <div class="background"></div>
+  <div class="overlap">
+    <div class="home_page">
+      <p id="p1">
+        <span style="color: white;"> Welcome</span> <br>Book your appoointment with <span
+          style="color:violet"><b>Comfort</b></span><br>
+        <ion-button shape="round" routerLink="/login/sign-in" class="buttons" color="light">
+          <span style="font-size: 20px; font-family: Brush Script MT, cursive;">Book Now</span>
+        </ion-button>
+      </p>
+    </div>
+
+    <div class="service">
+      <h3 id="p2">Available Services</h3>
+      <div class="cards">
+        <ion-grid>
+          <ion-row *ngFor="let result of services">
+            <ion-card>
+              <img alt="Service-image" [src]="result.service_logo" height="150px" width="160px">
+              <ion-card-content>
+                {{ result.service_name }}
+              </ion-card-content>
+            </ion-card>
+          </ion-row>
+        </ion-grid>
+      </div>
+    </div>
+  </div>
+
+</ion-content>

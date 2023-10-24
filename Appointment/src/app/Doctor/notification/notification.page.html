@@ -1,0 +1,32 @@
+<ion-toolbar>
+  <ion-buttons slot="start">
+    <ion-menu-button></ion-menu-button>
+  </ion-buttons>
+
+<ion-content [fullscreen]="true">
+  <h2>Appointments</h2>
+
+  <ion-grid style="margin: 0px 0rem 0rem 1rem;" [fixed]="true">
+    <ion-row *ngFor="let appnt of Appointment ">
+        <ion-col >
+                    
+          <ion-card style="color: white;" >
+            <ion-card-header>
+              <ion-card-title>Appointment</ion-card-title>
+              <ion-card-subtitle>Get Ready for Your Appointment</ion-card-subtitle>
+              <h5 style="color:{{statusColor(appnt.status)}} ;">{{appnt.status}}</h5>
+            </ion-card-header>
+          
+            <ion-card-content style="font-size: 20px;">
+              <h2 style="margin: 20px 0px 5px 0px;">Patient Name : </h2 >{{appnt.patient_first_name}} {{appnt.patient_last_name}}<br>
+              <h2 style="margin: 20px 0px 5px 0px;">Appointment Date : </h2 >{{appnt.appointment_date}}<br>
+              <h2 style="margin: 20px 0px 5px 0px;" >Appointment Time : </h2 >{{appnt.appointment_time}}<br>
+              <h2 style="margin: 20px 0px 5px 0px;">Appointment Day : </h2 >{{setDay(appnt.appointment_date)}}<br>
+              <h2 style="margin: 20px 0px 5px 0px;">Reason for Appointment</h2 >{{appnt.reason_for_appointment}} </ion-card-content>
+          </ion-card>
+
+        </ion-col>
+    </ion-row>
+  </ion-grid>
+  
+</ion-content>

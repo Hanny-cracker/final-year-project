@@ -1,0 +1,239 @@
+<ion-toolbar>
+  <ion-buttons slot="start">
+    <ion-menu-button></ion-menu-button>
+  </ion-buttons>
+
+  <div class="tool">
+    <ion-segment (ionChange)="displaySegment($event)" [value]="segment">
+      <ion-segment-button value="Pending">
+        <ion-label>Pending Appointment</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="Confirmed">
+        <ion-label>Cornfirmed Appointments</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="History">
+        <ion-label>History</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </div>
+
+</ion-toolbar>
+
+<ion-content [fullscreen]="true">
+
+  <div *ngIf="show_pen">
+    <ion-card>
+      <div style="overflow-x:auto;">
+        <table>
+          <thead>
+            <tr class="thead">
+              <th style="width: 10%;">Appointment ID</th>
+              <th style="width: 10%;">Patient's Name</th>
+              <th style="width: 10%;">Appointment Date</th>
+              <th style="width: 10%;">Appointment Time</th>
+              <th style="width: 10%;">Appointment Day</th>
+              <th style="width: 10%;">Appointment Status</th>
+              <th style="width: 10%;">Action / Details</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let appnt of Pending_Appointment">
+              <td>{{appnt.appointment_id}}</td>
+              <td>{{appnt.patient_first_name}} {{appnt.patient_last_name}}</td>
+              <td>{{appnt.appointment_date}}</td>
+              <td>{{appnt.appointment_time}}</td>
+              <td>{{setDay(appnt.appointment_date)}}</td>
+              <td><span style="color: {{statusColor(appnt.status)}}">{{appnt.status}}</span></td>
+              <td style="padding: 0px;display:inline-flex;">
+                <ion-button (click)="selectedID(appnt.appointment_id,appnt.doctor_comment,appnt.status)"
+                  onclick="document.getElementById('id01').style.display='block'" fill="clear" color="warning"><ion-icon
+                    name="eye-outline"></ion-icon>
+                </ion-button>
+                <ion-button (click)="conf_ID(appnt.appointment_id)" fill="clear" color="success"><ion-icon
+                    name="checkmark-circle-outline"></ion-icon>
+                </ion-button>
+                <ion-button (click)="del_ID(appnt.appointment_id)" fill="clear" color="danger"><ion-icon
+                    name="close-circle-outline"></ion-icon>
+                </ion-button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </ion-card>
+  </div>
+
+  <div *ngIf="show_appt">
+    <ion-card>
+      <div style="overflow-x:auto;">
+        <table>
+          <thead>
+            <tr class="thead">
+              <th style="width: 10%;">Appointment ID</th>
+              <th style="width: 10%;">Patient's Name</th>
+              <th style="width: 10%;">Appointment Date</th>
+              <th style="width: 10%;">Appointment Time</th>
+              <th style="width: 10%;">Appointment Day</th>
+              <th style="width: 10%;">Appointment Status</th>
+              <th style="width: 10%;">Action / Details</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let appnt of Confirmed_Appointment">
+              <td>{{appnt.appointment_id}}</td>
+              <td>{{appnt.patient_first_name}} {{appnt.patient_last_name}}</td>
+              <td>{{appnt.appointment_date}}</td>
+              <td>{{appnt.appointment_time}}</td>
+              <td>{{setDay(appnt.appointment_date)}}</td>
+              <td><span style="color: {{statusColor(appnt.status)}}">{{appnt.status}}</span></td>
+              <td style="padding: 0px;display:inline-flex;">
+                <ion-button (click)="selectedID(appnt.appointment_id, appnt.doctor_comment,appnt.status)"
+                  onclick="document.getElementById('id01').style.display='block'" fill="clear" color="primary"><ion-icon
+                    name="eye-outline"></ion-icon>
+                </ion-button>
+                <ion-button (click)="Completed(appnt.appointment_id)" fill="clear" color="success"><ion-icon
+                    name="checkmark-circle-outline"></ion-icon>
+                </ion-button>
+                <ion-button (click)="del_ID(appnt.appointment_id)" fill="clear" color="danger"><ion-icon
+                    name="close-circle-outline"></ion-icon>
+                </ion-button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </ion-card>
+  </div>
+
+  <div *ngIf="show_hist">
+    <div class="history_h">
+      <h2>History</h2>
+    </div>
+    <ion-card>
+      <ion-button id="present-alert" slots="end" color="danger" shape="round" fill="clear" class="bt1">Clear
+        History</ion-button>
+      <ion-alert trigger="present-alert" header="Are you sure you want to clear your history ?????"
+        [buttons]="clearHistory">
+      </ion-alert>
+      <div style="overflow-x: auto;">
+        <table>
+          <thead>
+            <tr class="thead">
+              <th>Appointment ID</th>
+              <th>Patient Name</th>
+              <th>Appointment Date</th>
+              <th>Appointment Time</th>
+              <th>Appointment Day</th>
+              <th>Appointment Service</th>
+              <th>Appointment Reason</th>
+              <th>Appointment Status</th>
+              <th>Doctors Cooment</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let appnt of Appointment_hist">
+              <td>{{appnt.appointment_id}}</td>
+              <td>{{appnt.patient_first_name}} {{appnt.patient_last_name}}</td>
+              <td>{{appnt.appointment_date}}</td>
+              <td>{{appnt.appointment_time}}</td>
+              <td>{{setDay(appnt.appointment_date)}}</td>
+              <td>{{appnt.service_name}}</td>
+              <td>{{appnt.reason_for_appointment}}</td>
+              <td><span style="color: {{statusColor(appnt.status)}}">{{appnt.status}}</span></td>
+              <td>{{appnt.doctor_comment}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </ion-card>
+  </div>
+
+  <div id="id01" class="modal">
+    <div>
+      <ion-card class="modal-content animate">
+        <ion-card-header>
+          <div class="headcontainer">
+            <ion-item>
+              <span onclick="document.getElementById('id01').style.display='none'" class="close"
+                title="Close">&times;</span>
+              <ion-card-title>
+                <h1>View Appointment Datails</h1>
+              </ion-card-title>
+            </ion-item>
+          </div>
+        </ion-card-header>
+        <ion-card-content>
+          <table style="font-size: 15px">
+            <tbody *ngFor="let data of Patient">
+              <tr>
+                <td colspan="2">
+                  <h1>Patient Details</h1>
+                </td>
+              </tr>
+              <tr>
+                <td>Patient Name</td>
+                <td>{{data.patient_first_name}} {{data.patient_last_name}}</td>
+              </tr>
+              <tr>
+                <td>Contact No.</td>
+                <td>{{data.patient_phone_no}}</td>
+              </tr>
+              <tr>
+                <td>Address</td>
+                <td>{{data.patient_address}}</td>
+              </tr>
+              <tr>
+                <td colspan="2"><br><br>
+                  <h1>Appointment Details</h1>
+                </td>
+              </tr>
+              <tr>
+                <td>Appointmet ID</td>
+                <td>{{data.appointment_id}}</td>
+              </tr>
+              <tr>
+                <td>Doctor Name</td>
+                <td>{{data.doctor_name}}</td>
+              </tr>
+              <tr>
+                <td>Appointment Date</td>
+                <td>{{data.appointment_date}}</td>
+              </tr>
+              <tr>
+                <td>Appointment Day</td>
+                <td>{{setDay(data.appointment_date)}}</td>
+              </tr>
+              <tr>
+                <td>Appointment Time</td>
+                <td>{{data.appointment_time}}</td>
+              </tr>
+              <tr>
+                <td>Service</td>
+                <td>{{data.service_name}}</td>
+              </tr>
+              <tr>
+                <td>Reason For Appointment</td>
+                <td>{{data.reason_for_appointment}}</td>
+              </tr>
+              <tr>
+                <td>Doctor Comment</td>
+                <td>
+                  <ion-textarea labelPlacement="floating" fill="outline" placeholder="Comment" [(ngModel)]="Comment"
+                    [autoGrow]="true"></ion-textarea>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </ion-card-content>
+        <br><br><br><br>
+        <div class="container">
+          <ion-button color="tertiary" fill="solid" (click)="Save()"
+            onclick="document.getElementById('id01').style.display='none'">Save </ion-button>
+          <ion-button onclick="document.getElementById('id01').style.display='none'" color="success" fill="clear"
+            onclick="document.getElementById('id01').style.display='none'">Close</ion-button>
+        </div><br><br><br>
+      </ion-card>
+    </div>
+  </div>
+
+</ion-content>

@@ -1,0 +1,48 @@
+<ion-toolbar>
+  <ion-buttons slot="start">
+    <ion-menu-button></ion-menu-button>
+  </ion-buttons>
+
+</ion-toolbar>
+
+<ion-content [fullscreen]="true">
+  <ion-grid [fixed]="true">
+    <ion-row>
+      <ion-col *ngIf="edit">
+        <ion-card>
+          <ion-card-header> Appointment Schedule slots </ion-card-header>
+          <ion-button (click)="save()" size="small" color="warning">save</ion-button>
+
+          <div>
+            <ion-grid [fixed]="true">
+              <ion-row *ngFor="let time of time_slots">
+                <ion-col>
+                  <ion-button (click)="my_time(time)">{{time}}</ion-button>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </div>
+
+        </ion-card>
+      </ion-col>
+      <ion-col>
+        <ion-card>
+          <ion-card-header>My Appointment Schedule slots </ion-card-header>
+          <ion-button *ngIf="!edit" (click)="modify()" size="small" color="warning">Edit</ion-button>
+
+          <div>
+            <ion-grid [fixed]="true">
+              <ion-row *ngFor="let time of time_slot">
+                <ion-col>
+                  <ion-button disabled="true" color="success">{{time}}</ion-button>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </div>
+
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+</ion-content>

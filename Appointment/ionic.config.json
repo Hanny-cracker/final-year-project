@@ -1,0 +1,7 @@
+{
+  "name": "Appointment",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
